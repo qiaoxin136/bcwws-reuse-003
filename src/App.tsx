@@ -253,7 +253,11 @@ function App() {
 
 
   const handleDate = (e: ChangeEvent<HTMLInputElement>) => {
-    setDate(e.target.value);
+    const selected = e.target.value;
+    setDate(selected);
+    if (selected && !dateInfoList.some(item => item.date === selected)) {
+      client.models.Date.create({ date: selected });
+    }
   };
 
   const handleTime = (e: ChangeEvent<HTMLInputElement>) => {
@@ -330,10 +334,7 @@ function App() {
       alert("Please select a date before adding a new record.");
       return;
     }
-    if (!dateInfoList.some(item => item.date === date)) {
-      alert(`Date ${date} does not exist in the Date Info table. Please add it there first.`);
-      return;
-    }
+
     handleUserName();
     //console.log(typeof userName);
     //console.log("Username:", userName);
